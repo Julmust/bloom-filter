@@ -9,6 +9,7 @@ def base_obj():
     bf.insert('Hello, world!')
     return bf
 
+
 def test_hashing(base_obj):
     res = base_obj.hash('Hello, world!')
 
