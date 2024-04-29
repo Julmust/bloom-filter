@@ -18,10 +18,10 @@ def test_is_present_true():
     bf = BloomFilter()
     bf.insert('Hello, world!')
 
-    assert bf.is_present(bf.hash('Hello, world!'))
+    assert bf.is_present('Hello, world!')
 
 def test_is_present_false():
     bf = BloomFilter()
     bf.insert('Hello, world!')
 
-    assert not bf.is_present(bf.hash('Hello, world'))
+    assert not bf.is_present('Hello, world')

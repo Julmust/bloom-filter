@@ -13,12 +13,13 @@ class BloomFilter:
         hp = self.hash(val)
 
         # If the value _might_ be present, we don't have to edit the array
-        if not self.is_present(hp):
+        if not self.is_present(val):
             for h in hp:
                 self.arr[h] = 1
 
 
-    def is_present(self, hp) -> bool:
+    def is_present(self, val) -> bool:
+        hp = self.hash(val)
         total = sum([self.arr[p] for p in hp])
 
         if total == 3:
