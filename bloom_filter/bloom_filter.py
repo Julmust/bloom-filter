@@ -1,14 +1,28 @@
 import mmh3
 
-SEEDS = [42, 684, 9278]
 
-def hash(val: str) -> int:
-    return [mmh3.hash(val, i) % 1000 for i in SEEDS]
+class BloomFilter:
+    def __init__(self):
+        self.seeds =  [42, 684, 9278]
+        self.arr = [0] * 1000
+
+    def hash(self, val: str) -> list:
+        return [mmh3.hash(val, seed) % 1000 for seed in self.seeds]
+
+    def insert(self, val):
+        hp = self.hash(val)
+
+        # If the value _might_ be present, we don't have to edit the array
+        if not self.is_present(hp):
+            for h in hp:
+                self.arr[h] = 1
 
 
-def main():
-    ...
+    def is_present(self, hp) -> bool:
+        total = sum([self.arr[p] for p in hp])
 
+        if total == 3:
+            return True
 
-if __name__ == '__main__':
-    main()
+        return False
+
