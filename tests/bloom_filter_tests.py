@@ -1,30 +1,28 @@
+import pytest
+
 from bloom_filter import BloomFilter
 
 
-def test_hashing():
+@pytest.fixture(scope='session')
+def base_obj():
     bf = BloomFilter()
-    res = bf.hash('Hello, world!')
+    bf.insert('Hello, world!')
+    return bf
+
+def test_hashing(base_obj):
+    res = base_obj.hash('Hello, world!')
 
     assert res == [643, 403, 247]
 
 
-def test_insert():
-    bf = BloomFilter()
-    bf.insert('Hello, world!')
-
+def test_insert(base_obj):
     for v in [643, 403, 247]:
-        assert bf.arr[v] == 1
+        assert base_obj.arr[v] == 1
 
 
-def test_is_present_true():
-    bf = BloomFilter()
-    bf.insert('Hello, world!')
-
-    assert bf.is_present('Hello, world!')
+def test_is_present_true(base_obj):
+    assert base_obj.is_present('Hello, world!')
 
 
-def test_is_present_false():
-    bf = BloomFilter()
-    bf.insert('Hello, world!')
-
-    assert not bf.is_present('Hello, world')
+def test_is_present_false(base_obj):
+    assert not base_obj.is_present('Hello, world')
