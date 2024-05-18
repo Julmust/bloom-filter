@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 mmh3 = "*"
 pytest = "*"
+numpy = "*"
 
 [dev-packages]
 
