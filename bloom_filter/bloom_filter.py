@@ -1,16 +1,23 @@
+import math
+import random
+
 import mmh3
+import numpy as np
 
 
 class BloomFilter:
-    def __init__(self):
-        self.seeds = [42, 684, 9278]
-        self.arr = [0] * 1000
+    def __init__(self, exp_items: int, acc_false_pos_rate: float):
+        no_bits = (-1 * exp_items) * np.log(acc_false_pos_rate)/pow(np.log(2), 2)
+        no_hash_funcs = math.ceil(no_bits/(exp_items*np.log(2)))
+
+        self.seeds = [random.randint(1, (no_hash_funcs*1000)) for i in range(no_hash_funcs)]
+        self.arr = [0] * math.ceil(no_bits)
 
     def hash(self, val: str) -> list:
         """
         Consistently hash the incoming values with a seed
         """
-        return [mmh3.hash(val, seed) % 1000 for seed in self.seeds]
+        return [mmh3.hash(val, seed) % len(self.arr) for seed in self.seeds]
 
     def insert(self, val):
         """
@@ -35,3 +42,6 @@ class BloomFilter:
             return True
 
         return False
+    
+if __name__ == '__main__':
+    bf = BloomFilter(10, 0.5)
