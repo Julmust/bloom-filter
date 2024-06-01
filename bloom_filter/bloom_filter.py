@@ -7,11 +7,11 @@ import numpy as np
 
 class BloomFilter:
     def __init__(self, exp_items: int, acc_false_pos_rate: float):
-        no_bits = (-1 * exp_items) * np.log(acc_false_pos_rate)/pow(np.log(2), 2)
-        no_hash_funcs = math.ceil(no_bits/(exp_items*np.log(2)))
+        no_bits = (-1 * exp_items) * np.log(acc_false_pos_rate) / pow(np.log(2), 2)
+        no_hash_funcs = math.ceil(no_bits / (exp_items * np.log(2)))
 
         # FIXME: Possible to get two seeds with the same value
-        self.seeds = [random.randint(1, (no_hash_funcs*1000)) for i in range(no_hash_funcs)]
+        self.seeds = [random.randint(1, (no_hash_funcs * 1000)) for i in range(no_hash_funcs)]
         self.arr = [0] * math.ceil(no_bits)
 
     def hash(self, val: str) -> list:
@@ -43,6 +43,7 @@ class BloomFilter:
             return True
 
         return False
-    
+
+
 if __name__ == '__main__':
     bf = BloomFilter(10, 0.5)
