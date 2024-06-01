@@ -10,6 +10,7 @@ class BloomFilter:
         no_bits = (-1 * exp_items) * np.log(acc_false_pos_rate)/pow(np.log(2), 2)
         no_hash_funcs = math.ceil(no_bits/(exp_items*np.log(2)))
 
+        # FIXME: Possible to get two seeds with the same value
         self.seeds = [random.randint(1, (no_hash_funcs*1000)) for i in range(no_hash_funcs)]
         self.arr = [0] * math.ceil(no_bits)
 
@@ -38,7 +39,7 @@ class BloomFilter:
         hp = self.hash(val)
         total = sum([self.arr[p] for p in hp])
 
-        if total == 3:
+        if total == len(self.seeds):
             return True
 
         return False
