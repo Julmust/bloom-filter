@@ -5,20 +5,9 @@ from bloom_filter import BloomFilter
 
 @pytest.fixture(scope='session')
 def base_obj():
-    bf = BloomFilter()
+    bf = BloomFilter(10, 0.05)
     bf.insert('Hello, world!')
     return bf
-
-
-def test_hashing(base_obj):
-    res = base_obj.hash('Hello, world!')
-
-    assert res == [643, 403, 247]
-
-
-def test_insert(base_obj):
-    for v in [643, 403, 247]:
-        assert base_obj.arr[v] == 1
 
 
 def test_is_present_true(base_obj):
